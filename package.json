@@ -1,0 +1,36 @@
+{
+  "name": "react-batch-tracker",
+  "version": "1.0.0",
+  "description": "Keeps track of your users state manipulation and batch them into a single callback function for you.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthonwellsjo/react-batch-tracker.git"
+  },
+  "keywords": [
+    "react",
+    "batch",
+    "api",
+    "calls",
+    "state",
+    "tracker",
+    "autosave"
+  ],
+  "author": "Carl Anthon Wellsjö",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anthonwellsjo/react-batch-tracker/issues"
+  },
+  "homepage": "https://github.com/anthonwellsjo/react-batch-tracker#readme",
+  "devDependencies": {
+    "@types/react": "^18.0.18",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "react": "^18.2.0",
+    "typescript": "^4.8.2",
+    "react-router": "^6.3.0"
+  }
+}
