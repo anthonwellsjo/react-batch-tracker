@@ -1,7 +1,7 @@
 {
   "name": "react-batch-tracker",
   "version": "1.0.0",
-  "description": "Keeps track of your users state manipulation and batch them into a single callback function for you.",
+  "description": "Keeps track of your users state manipulation and batch them into a single callback function.",
   "main": "index.js",
   "scripts": {
     "test": "test"

@@ -1,13 +1,12 @@
 
 import React, { createContext, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
 
-interface Props extends RouteComponentProps {
+interface Props {
   children: React.ReactNode;
 }
 
 /** 
-**An action tracker that lets you create simultaneous trackers that fires a callback
+**A batch tracker that lets you create simultaneous trackers that fires a callback
 function after timeout finishes.** 
 
 When you register a new action with the action() function 
@@ -19,25 +18,22 @@ Example code:
 
 #Create a new action tracker:
 ```
-const actionTracker = useContext(ActionTrackerContext);
-
-useEffect(()=>{
-  actionTracker.create('inventory-list', 3000, syncInventoryListStateWithDatabase);
-})
+const actionTracker = useContext(BatchTrackerContext);
+actionTracker.create('inventory-list', 3000, syncInventoryListStateWithDatabase);
 ```
 
-#Create an action which fires of the timer to the callback function.
+#Create an action which reset and restart the timer to the callback function.
 ```
-const { action } = useContext(ActionTrackerContext);
+const { action } = useContext(BatchTrackerContext);
 function onStateChanged() {
-  const updatedInventoryEntityItem = updateInventoryEntityItem(item, selectedPersonnel);
-  action<InventoryEntityDocument>('inventory-list', updatedInventoryEntityItem);
+const updatedInventoryEntityItem = updateInventoryEntityItem(item, selectedPersonnel);
+action<InventoryEntityDocument>('inventory-list', updatedInventoryEntityItem);
 }
 
 */
-export interface ActionTrackerContext {
+export interface BatchTrackerContext {
   /**An action resets the timeout. */
-  action<T extends { _id: string | Types.ObjectId }>(
+  action<T extends { id: string}>(
     /**The name of the tracker that should register a new edit action. */
     name: string,
     /**Should contain the data that you're tracking with the action tracker. */
@@ -45,7 +41,7 @@ export interface ActionTrackerContext {
   ): void;
 
   /**Creates and stores a new tracker in the context state. */
-  create<T extends { _id: string | Types.ObjectId }>(
+  create<T extends { id: string}>(
     /**The name/identifier for the new tracker. */
     name: string,
     /**Timeout in milliseconds until the callback function is fired. */
@@ -53,30 +49,30 @@ export interface ActionTrackerContext {
     /**The callback function that will be called once the timeout has finished. */
     callbackFunction: (items?: TrackerItem<T>[]) => void,
     /**Config to override default behaviour */
-    config?: ActionTrackerConfig | undefined,
+    config?: BatchTrackerConfig | undefined,
   ): void;
 
   /**Fires the callback and stop the counter. */
   overrideCallback: () => void;
 }
 
-export type TrackerItem<T> = T & { _id: string | Types.ObjectId };
+export type TrackerItem<T> = T & { id: string};
 
-export interface ActionTrackerConfig {
+export interface BatchTrackerConfig {
   /** When false, adds all actions in a stack rather than just updating the existing 
-      action on that trackingItem. Defaults to true. */
-  mutableActions?: boolean;
+action on that trackingItem. Defaults to true. */
+  mutableBatchs?: boolean;
 }
 
-class Tracker<T extends { _id: string | Types.ObjectId }> {
+class Tracker<T extends { id: string}> {
   private _name: string;
   private _timeoutMs: number;
   private _callbackFunction: (items?: TrackerItem<T>[]) => void;
   private _timer: ReturnType<typeof setTimeout>;
   private _trackerItems: TrackerItem<T>[];
-  private _config: ActionTrackerConfig;
+  private _config: BatchTrackerConfig;
 
-  constructor(name: string, timeoutMs: number, callbackFunction: () => void, config?: ActionTrackerConfig) {
+  constructor(name: string, timeoutMs: number, callbackFunction: () => void, config?: BatchTrackerConfig) {
     this._name = name;
     this._timeoutMs = timeoutMs;
     this._callbackFunction = callbackFunction;
@@ -104,29 +100,28 @@ class Tracker<T extends { _id: string | Types.ObjectId }> {
   }
 
   /** Removes all tracker items with matching id*/
-  public purgeTrackerItems(id: string | Types.ObjectId) {
-    const _id = typeof id != 'string' ? id.toString() : id;
-    this._trackerItems = this._trackerItems.filter((i) => i._id !== _id);
+  public purgeTrackerItems(id: string) {
+    this._trackerItems = this._trackerItems.filter((i) => i.id !== id);
   }
 }
 
-export const ActionTrackerContext = createContext<ActionTrackerContext>({} as any);
+export const BatchTrackerContext = createContext<BatchTrackerContext>({} as any);
 
-function ActionTracker<T>(props: Props) {
-  const [actionTrackers, setActionTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
+function BatchTracker<T>(props: Props) {
+  const [actionTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
 
-  const create: ActionTrackerContext['create'] = (name, timeoutMs, callbackFunction) => {
+  const create: BatchTrackerContext['create'] = (name, timeoutMs, callbackFunction) => {
     if (actionTrackers.some((t) => t.name === name)) {
       console.warn('Trying to add an action tracker that already exists. Aborting.');
       return;
     }
 
     const tracker = new Tracker<TrackerItem<T>>(name, timeoutMs, callbackFunction);
-    setActionTrackers((prev) => [...prev, tracker]);
+    setBatchTrackers((prev) => [...prev, tracker]);
     return;
   };
 
-  const action: ActionTrackerContext['action'] = (name, trackingItem) => {
+  const action: BatchTrackerContext['action'] = (name, trackingItem) => {
     const tracker = findTracker<T>(actionTrackers, name);
 
     if (!tracker) {
@@ -135,7 +130,7 @@ function ActionTracker<T>(props: Props) {
     }
 
     if (trackingItem) {
-      if (tracker.config.mutableActions) tracker.purgeTrackerItems(trackingItem._id);
+      if (tracker.config.mutableBatchs) tracker.purgeTrackerItems(trackingItem.id);
 
       tracker.addTrackerItem(trackingItem);
     }
@@ -144,28 +139,28 @@ function ActionTracker<T>(props: Props) {
     return;
   };
 
-  const overrideCallback: ActionTrackerContext['overrideCallback'] = () => {
+  const overrideCallback: BatchTrackerContext['overrideCallback'] = () => {
     alert('override callback');
     return;
   };
 
-  const actionTracker: ActionTrackerContext = {
+  const actionTracker: BatchTrackerContext = {
     create,
     action,
     overrideCallback,
   };
 
-  return <ActionTrackerContext.Provider value={actionTracker}>{props.children}</ActionTrackerContext.Provider>;
+  return <BatchTrackerContext.Provider value={actionTracker}>{props.children}</BatchTrackerContext.Provider>;
 }
 
-export const ActionTrackerProvider = withRouter(ActionTracker);
+export const BatchTrackerProvider = BatchTrackerContext.Provider;
 
 function findTracker<T>(actionTrackers: Tracker<TrackerItem<T>>[], name: string) {
   return actionTrackers.find((t) => t.name === name);
 }
 
-function getConfig(config: ActionTrackerConfig | undefined): ActionTrackerConfig {
+function getConfig(config: BatchTrackerConfig | undefined): BatchTrackerConfig {
   return {
-    mutableActions: config?.mutableActions ? config?.mutableActions : true,
+    mutableBatchs: config?.mutableBatchs ? config?.mutableBatchs : true,
   };
 }
