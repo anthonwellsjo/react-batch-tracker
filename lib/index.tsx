@@ -31,7 +31,7 @@ action<InventoryEntityDocument>('inventory-list', updatedInventoryEntityItem);
 }
 
 */
-export interface BatchTrackerContext {
+export interface BatchTrackerInterface {
   /**An action resets the timeout. */
   action<T extends { id: string}>(
     /**The name of the tracker that should register a new edit action. */
@@ -105,12 +105,12 @@ class Tracker<T extends { id: string}> {
   }
 }
 
-export const BatchTrackerContext = createContext<BatchTrackerContext>({} as any);
+export const BatchTrackerContext = createContext<BatchTrackerInterface | undefined>(undefined);
 
-function BatchTracker<T>(props: Props) {
+export function BatchTracker<T>(props: Props) {
   const [actionTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
 
-  const create: BatchTrackerContext['create'] = (name, timeoutMs, callbackFunction) => {
+  const create: BatchTrackerInterface['create'] = (name, timeoutMs, callbackFunction) => {
     if (actionTrackers.some((t) => t.name === name)) {
       console.warn('Trying to add an action tracker that already exists. Aborting.');
       return;
@@ -121,7 +121,7 @@ function BatchTracker<T>(props: Props) {
     return;
   };
 
-  const action: BatchTrackerContext['action'] = (name, trackingItem) => {
+  const action: BatchTrackerInterface['action'] = (name, trackingItem) => {
     const tracker = findTracker<T>(actionTrackers, name);
 
     if (!tracker) {
@@ -139,12 +139,12 @@ function BatchTracker<T>(props: Props) {
     return;
   };
 
-  const overrideCallback: BatchTrackerContext['overrideCallback'] = () => {
+  const overrideCallback: BatchTrackerInterface['overrideCallback'] = () => {
     alert('override callback');
     return;
   };
 
-  const actionTracker: BatchTrackerContext = {
+  const actionTracker: BatchTrackerInterface = {
     create,
     action,
     overrideCallback,
@@ -153,7 +153,8 @@ function BatchTracker<T>(props: Props) {
   return <BatchTrackerContext.Provider value={actionTracker}>{props.children}</BatchTrackerContext.Provider>;
 }
 
-export const BatchTrackerProvider = BatchTrackerContext.Provider;
+
+
 
 function findTracker<T>(actionTrackers: Tracker<TrackerItem<T>>[], name: string) {
   return actionTrackers.find((t) => t.name === name);
