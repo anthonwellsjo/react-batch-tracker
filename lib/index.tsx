@@ -1,5 +1,5 @@
 
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -41,7 +41,7 @@ export interface BatchTrackerInterface {
   ): void;
 
   /**Creates and stores a new tracker in the context state. */
-  create<T extends { id: string}>(
+  createTracker<T extends { id: string}>(
     /**The name/identifier for the new tracker. */
     name: string,
     /**Timeout in milliseconds until the callback function is fired. */
@@ -80,7 +80,7 @@ class Tracker<T extends { id: string}> {
     this._config = getConfig(config);
   }
 
-  addTrackerItem(item) {
+  addTrackerItem(item: any) {
     this._trackerItems.push(item);
   }
 
@@ -105,12 +105,12 @@ class Tracker<T extends { id: string}> {
   }
 }
 
-export const BatchTrackerContext = createContext<BatchTrackerInterface | undefined>(undefined);
+export const BatchTrackerContext = createContext<BatchTrackerInterface>({} as any);
 
-export function BatchTracker<T>(props: Props) {
+export function BatchTrackerProvider<T>(props: Props) {
   const [actionTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
 
-  const create: BatchTrackerInterface['create'] = (name, timeoutMs, callbackFunction) => {
+  const createTracker: BatchTrackerInterface['createTracker'] = (name, timeoutMs, callbackFunction) => {
     if (actionTrackers.some((t) => t.name === name)) {
       console.warn('Trying to add an action tracker that already exists. Aborting.');
       return;
@@ -145,7 +145,7 @@ export function BatchTracker<T>(props: Props) {
   };
 
   const actionTracker: BatchTrackerInterface = {
-    create,
+    createTracker,
     action,
     overrideCallback,
   };
