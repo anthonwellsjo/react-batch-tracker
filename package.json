@@ -4,7 +4,8 @@
   "description": "Keeps track of your users state manipulation and batch them into a single callback function.",
   "main": "lib/index.tsx",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "npx tsc"
   },
   "files": ["/dist"],
   "repository": {
