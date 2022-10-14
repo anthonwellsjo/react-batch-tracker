@@ -117,18 +117,22 @@ class Tracker<T extends { id: string}> {
   }
 }
 
+const defaultConfig: BatchTrackerConfig = {
+  mutableBatch: true
+}
+
 export const BatchTrackerContext = createContext<BatchTrackerInterface>({} as any);
 
 export function BatchTrackerProvider<T>(props: Props) {
   const [actionTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
 
-  const createTracker: BatchTrackerInterface['createTracker'] = (name, timeoutMs, callbackFunction) => {
-    if (actionTrackers.some((t) => t.name === name)) {
+  const createTracker: BatchTrackerInterface['createTracker'] = (name, timeoutMs, callbackFunction, config) => {
+    if (batchTrackers.some((t) => t.name === name)) {
       console.warn('Trying to add an action tracker that already exists. Aborting.');
       return;
     }
 
-    const tracker = new Tracker<TrackerItem<T>>(name, timeoutMs, callbackFunction);
+    const tracker = new Tracker<TrackerItem<T>>(name, timeoutMs, callbackFunction, config);
     setBatchTrackers((prev) => [...prev, tracker]);
     return;
   };
@@ -181,6 +185,7 @@ function findTracker<T>(actionTrackers: Tracker<TrackerItem<T>>[], name: string)
 
 function getConfig(config: BatchTrackerConfig | undefined): BatchTrackerConfig {
   return {
-    mutableBatchs: config?.mutableBatchs ? config?.mutableBatchs : true,
+    mutableBatch: config?.mutableBatch != undefined ? config.mutableBatch : defaultConfig.mutableBatch,
+    cleanBatchOnCallback: config?.cleanBatchOnCallback != undefined ? config.cleanBatchOnCallback : defaultConfig.cleanBatchOnCallback,
   };
 }
