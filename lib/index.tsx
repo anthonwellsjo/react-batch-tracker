@@ -119,9 +119,12 @@ class Tracker<T extends { id: string}> {
     }, this._timeoutMs);
   }
 
-  /** Removes all tracker items with matching id*/
-  public purgeTrackerItems(id: string) {
-    this._trackerItems = this._trackerItems.filter((i) => i.id !== id);
+  /** Removes all tracker items, or all tracker items with matching id*/
+  public purgeTrackerItems(id?: string) {
+    if (id){this._trackerItems = this._trackerItems.filter((i) => i.id !== id);}
+    else {
+      this._trackerItems = [];
+    }
   }
 }
 
