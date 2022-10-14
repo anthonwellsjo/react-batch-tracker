@@ -124,7 +124,7 @@ const defaultConfig: BatchTrackerConfig = {
 export const BatchTrackerContext = createContext<BatchTrackerInterface>({} as any);
 
 export function BatchTrackerProvider<T>(props: Props) {
-  const [actionTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
+  const [batchTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
 
   const createTracker: BatchTrackerInterface['createTracker'] = (name, timeoutMs, callbackFunction, config) => {
     if (batchTrackers.some((t) => t.name === name)) {
@@ -138,7 +138,7 @@ export function BatchTrackerProvider<T>(props: Props) {
   };
 
   const action: BatchTrackerInterface['action'] = (name, trackingItem) => {
-    const tracker = findTracker<T>(actionTrackers, name);
+    const tracker = findTracker<T>(batchTrackers, name);
 
     if (!tracker) {
       console.warn('Trying to create an action on a nonexisting tracker. Aborting.');
@@ -146,7 +146,7 @@ export function BatchTrackerProvider<T>(props: Props) {
     }
 
     if (trackingItem) {
-      if (tracker.config.mutableBatchs) tracker.purgeTrackerItems(trackingItem.id);
+      if (tracker.config.mutableBatch) tracker.purgeTrackerItems(trackingItem.id); 
 
       tracker.addTrackerItem(trackingItem);
     }
