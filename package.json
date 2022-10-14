@@ -7,7 +7,8 @@
     "test": "test",
     "build": "npx tsc && bash scripts/build.sh",
     "link": "bash scripts/link.sh",
-    "unlink": "bash scripts/delete-glob.sh"
+    "unlink": "bash scripts/delete-glob.sh",
+    "relink": "npm run unlink && npm run build && npm run link"
   },
   "files": ["/dist"],
   "repository": {
