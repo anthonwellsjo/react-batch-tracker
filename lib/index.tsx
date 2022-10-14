@@ -178,9 +178,6 @@ export function BatchTrackerProvider<T>(props: Props) {
   return <BatchTrackerContext.Provider value={actionTracker}>{props.children}</BatchTrackerContext.Provider>;
 }
 
-
-
-
 function findTracker<T>(actionTrackers: Tracker<TrackerItem<T>>[], name: string) {
   return actionTrackers.find((t) => t.name === name);
 }
