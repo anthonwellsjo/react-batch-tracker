@@ -155,8 +155,10 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   };
 
-  const overrideCallback: BatchTrackerInterface['overrideCallback'] = () => {
-    alert('override callback');
+  const overrideCallback: BatchTrackerInterface['overrideCallback'] = (batchName) => {
+    // const tracker = findTracker<T>(batchTrackers, batchName);
+    // tracker.
+    console.warn("Warning, override callback function not yet implemented.");
     return;
   };
 
