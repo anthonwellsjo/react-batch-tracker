@@ -104,6 +104,14 @@ class Tracker<T extends { id: string}> {
     return this._config;
   }
 
+  public runCallbackFunction() {
+    this._callbackFunction(this._trackerItems);
+  }
+
+  public clearTimer(){
+    clearTimeout(this._timer);
+  }
+
   public start() {
     clearTimeout(this._timer);
     this._timer = setTimeout(() => {
