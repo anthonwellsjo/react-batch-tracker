@@ -33,7 +33,7 @@ action<InventoryEntityDocument>('inventory-list', updatedInventoryEntityItem);
 export interface BatchTrackerInterface {
   /**An action resets the timeout. */
   action<T extends { id: string}>(
-    /**The name of the tracker that should register a new edit action. */
+    /**The name of the tracker that should register the action. */
     name: string,
     /**Should contain the data that you're tracking with the action tracker. */
     trackingItem?: TrackerItem<T>,
@@ -58,9 +58,19 @@ export interface BatchTrackerInterface {
 export type TrackerItem<T> = T & { id: string};
 
 export interface BatchTrackerConfig {
-  /** When false, adds all actions in a stack rather than just updating the existing 
-action on that trackingItem. Defaults to true. */
-  mutableBatchs?: boolean;
+  /** When false, all actions on the same tracking item will be kept in an array. This could be useful if some kind of undo
+  functionality is needed and you the whole state mutation history for that batch.
+
+  If set to true, only the latest action on the same item will be saved. 
+
+  *Defaults to true. */
+  mutableBatch?: boolean;
+
+  /** If set to false, the batch will not be cleared on callback. If set to false, be careful of using a lot of memory and 
+  to manually clear the batch before it grows to big.
+
+  *Defaults to true. */
+  cleanBatchOnCallback?: boolean
 }
 
 class Tracker<T extends { id: string}> {
