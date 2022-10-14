@@ -177,7 +177,11 @@ export function BatchTrackerProvider<T>(props: Props) {
 
   const cleanBatch: BatchTrackerInterface['cleanBatch'] = (batchName) => {
     const tracker = findTracker<T>(batchTrackers, batchName);
-    tracker?.purgeTrackerItems
+    if (!tracker) {
+      console.warn('Trying to clean batch on a nonexisting tracker. Aborting.');
+      return;
+    }
+    tracker.purgeTrackerItems();
     return;
   }
 
