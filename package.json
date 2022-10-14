@@ -5,7 +5,8 @@
   "main": "lib/index.tsx",
   "scripts": {
     "test": "test",
-    "build": "npx tsc && bash scripts/build.sh",
+    "build": "bash scripts/build.sh",
+    "clean": "bash scripts/clean.sh",
     "link": "bash scripts/link.sh",
     "unlink": "bash scripts/delete-glob.sh",
     "relink": "npm run unlink && npm run build && npm run link"
