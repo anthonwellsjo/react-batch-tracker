@@ -172,6 +172,7 @@ export function BatchTrackerProvider<T>(props: Props) {
     }
     tracker.clearTimer();
     tracker.runCallbackFunction();
+    if (tracker.config.cleanBatchOnCallback) tracker.purgeTrackerItems();
     return;
   };
 
