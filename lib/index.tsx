@@ -155,10 +155,8 @@ export function BatchTrackerProvider<T>(props: Props) {
 
     if (trackingItem) {
       if (tracker.config.mutableBatch) tracker.purgeTrackerItems(trackingItem.id); 
-
       tracker.addTrackerItem(trackingItem);
     }
-
     tracker.start();
     return;
   };
