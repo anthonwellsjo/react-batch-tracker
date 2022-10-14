@@ -52,7 +52,10 @@ export interface BatchTrackerInterface {
   ): void;
 
   /**Fires the callback and stop the counter. */
-  overrideCallback: () => void;
+  overrideCallback: (batchName: string) => void;
+
+  /**Will manually emtpy the batch of all its' actions */
+  cleanBatch: (batchName: string) => void;
 }
 
 export type TrackerItem<T> = T & { id: string};
@@ -153,10 +156,17 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   };
 
+  const cleanBatch: BatchTrackerInterface['cleanBatch'] = (batchName) => {
+    const tracker = findTracker<T>(batchTrackers, batchName);
+    tracker?.purgeTrackerItems
+    return;
+  }
+
   const actionTracker: BatchTrackerInterface = {
     createTracker,
     action,
     overrideCallback,
+    cleanBatch
   };
 
   return <BatchTrackerContext.Provider value={actionTracker}>{props.children}</BatchTrackerContext.Provider>;
