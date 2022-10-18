@@ -164,8 +164,8 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   };
 
-  const overrideCallback: BatchTrackerInterface['overrideCallback'] = (batchName) => {
-    const tracker = findTracker<T>(batchTrackers, batchName);
+  const overrideCallback: BatchTrackerInterface['overrideCallback'] = (batchTrackerName) => {
+    const tracker = findTracker<T>(batchTrackers, batchTrackerName);
     if (!tracker) {
       console.warn('Trying to run callback function on a nonexisting tracker. Aborting.');
       return;
@@ -176,8 +176,8 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   };
 
-  const cleanBatch: BatchTrackerInterface['cleanBatch'] = (batchName) => {
-    const tracker = findTracker<T>(batchTrackers, batchName);
+  const cleanBatch: BatchTrackerInterface['cleanBatch'] = (batchTrackerName) => {
+    const tracker = findTracker(batchTrackers, batchTrackerName);
     if (!tracker) {
       console.warn('Trying to clean batch on a nonexisting tracker. Aborting.');
       return;
