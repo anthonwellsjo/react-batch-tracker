@@ -52,7 +52,7 @@ export interface BatchTrackerInterface {
   ): void;
 
   /**Fires the callback and stop the counter. */
-  overrideCallback: (batchName: string) => void;
+  overrideCallback: (batchTrackerName: string) => void;
 
   /**Will manually emtpy the batch of all its' actions */
   cleanBatch: (batchName: string) => void;
