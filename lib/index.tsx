@@ -55,7 +55,10 @@ export interface BatchTrackerInterface {
   overrideCallback: (batchTrackerName: string) => void;
 
   /**Will manually emtpy the batch of all its' actions */
-  cleanBatch: (batchName: string) => void;
+  cleanBatch: (batchTrackerName: string) => void;
+
+  /**Fetch a batch tracker by name*/
+  getBatch(batchTrackerName: string) : Tracker<{id: string}> | undefined;
 }
 
 export type TrackerItem<T> = T & { id: string};
@@ -186,11 +189,17 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   }
 
+  const getBatch = (batchTrackerName: string) => {
+    const tracker = findTracker(batchTrackers, batchTrackerName);
+    return tracker;
+  }
+
   const actionTracker: BatchTrackerInterface = {
     createTracker,
     action,
     overrideCallback,
-    cleanBatch
+    cleanBatch,
+    getBatch
   };
 
   return <BatchTrackerContext.Provider value={actionTracker}>{props.children}</BatchTrackerContext.Provider>;
