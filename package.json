@@ -1,6 +1,6 @@
 {
   "name": "react-batch-tracker",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Keep track of state manipulation and batch them into a single callback function.",
   "main": "lib/index.tsx",
   "scripts": {
