@@ -79,7 +79,7 @@ export interface BatchTrackerConfig {
   cleanBatchOnCallback?: boolean
 }
 
-class Tracker<T extends { id: string}> {
+export class Tracker<T extends { id: string}> {
   private _name: string;
   private _timeoutMs: number;
   private _callbackFunction: (items?: TrackerItem<T>[]) => void;
