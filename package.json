@@ -4,7 +4,7 @@
   "description": "Keep track of state manipulation and batch them into a single callback function.",
   "main": "lib/index.tsx",
   "scripts": {
-    "test": "jest",
+    "test": "jest --maxWorkers=1",
     "build": "bash scripts/build.sh",
     "clean": "bash scripts/clean.sh",
     "link": "bash scripts/link.sh",
