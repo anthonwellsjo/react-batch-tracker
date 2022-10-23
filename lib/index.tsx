@@ -189,7 +189,7 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   }
 
-  const getBatch = (batchTrackerName: string) => {
+  const getBatchTracker = (batchTrackerName: string) => {
     const tracker = findTracker(batchTrackers, batchTrackerName);
     return tracker;
   }
@@ -199,7 +199,7 @@ export function BatchTrackerProvider<T>(props: Props) {
     action,
     overrideCallback,
     cleanBatch,
-    getBatch
+    getBatchTracker
   };
 
   return <BatchTrackerContext.Provider value={actionTracker}>{props.children}</BatchTrackerContext.Provider>;
