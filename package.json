@@ -11,7 +11,9 @@
     "unlink": "bash scripts/delete-glob.sh",
     "relink": "npm run unlink && npm run build && npm run link"
   },
-  "files": ["/dist"],
+  "files": [
+    "/dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anthonwellsjo/react-batch-tracker.git"
