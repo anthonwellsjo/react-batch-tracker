@@ -58,7 +58,7 @@ export interface BatchTrackerInterface {
   cleanBatch: (batchTrackerName: string) => void;
 
   /**Fetch a batch tracker by name*/
-  getBatch(batchTrackerName: string) : Tracker<{id: string}> | undefined;
+  getBatchTracker(batchTrackerName: string) : Tracker<unknown & {id: string}> | undefined;
 }
 
 export type TrackerItem<T> = T & { id: string};
