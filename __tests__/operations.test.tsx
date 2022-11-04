@@ -3,7 +3,7 @@ import {BatchTrackerContext, BatchTrackerProvider, Tracker} from '../lib/index';
 import { useContext, useEffect, useState } from 'react';
 
 const testTracker = {
-  name: "test",
+  name: "tracker-name",
   callbackTimeout: 1000,
   callbackFunction: (data: any) => {console.log(data)},
 }
