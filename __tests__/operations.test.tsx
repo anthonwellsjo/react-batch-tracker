@@ -38,28 +38,34 @@ test("Should create a new batch", async () => {
 })
 
 
-// test("Batch tracker ", () => {
-// const Consumer: React.FC = () => {
-//   const { createTracker, getBatchTracker } = useContext(BatchTrackerContext);
-//   const [ tracker, setTracker ] = useState<Tracker<unknown & {id: string}> | undefined>(undefined);
+// test("Should run callback function", async () => {
+//   const Consumer: React.FC = () => {
+//     const { createTracker, action} = useContext(BatchTrackerContext);
+//     const [text, setText] = useState<string | undefined>(undefined);
 
-//   useEffect(()=>{
-//       createTracker(testTracker.name, testTracker.callbackTimeout, testTracker.callbackFunction);
-//   }, []);
+//     const callbackFunction = () => {
+//       setText("call-back-run");
+//       console.log("set tect");
+//     };
 
-//   useEffect(()=>{
-//       setTracker(getBatchTracker(testTracker.name));
+//     useEffect(()=>{
+//       createTracker(testTracker.name, testTracker.callbackTimeout, testTracker.callbackFunction)
+//         .then(()=>{
+//           action(testTracker.name);
+//         })
+//     }, []);
 
-//   }, []);
-//   
-//   return <p data-testid="tracker-name">test</p>
-// }
+
+//     return <p data-testid="tracker-name">{text}</p>
+//   }
 
 //   render(
 //     <BatchTrackerProvider>
 //       <Consumer/>
 //     </BatchTrackerProvider>,
 //   )
-//   expect(screen.getByTestId('tracker-name').textContent).toBe(testTracker.name)
+//   await waitFor(() => {
+//     expect(screen.getByText("call-back-run"))
+//   })
 // })
 
