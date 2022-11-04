@@ -9,7 +9,7 @@ const testTracker = {
 }
 
 
-test("Creates a new batch", async () => {
+test("Should create a new batch", async () => {
   const Consumer: React.FC = () => {
     const { createTracker, getBatchTracker } = useContext(BatchTrackerContext);
     const [ tracker, setTracker ] = useState<Tracker<unknown & {id: string}> | undefined>(undefined);
