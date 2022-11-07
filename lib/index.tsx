@@ -49,6 +49,7 @@ export interface BatchTrackerInterface {
     callbackFunction: (items?: TrackerItem<T>[]) => void,
     /**Config to override default behaviour */
     config?: BatchTrackerConfig | undefined,
+    onTrackerCreated?: (() => void) | undefined
   ): void;
 
   /**Fires the callback and stop the counter. */
@@ -86,13 +87,15 @@ export class Tracker<T extends { id: string}> {
   private _timer: ReturnType<typeof setTimeout>;
   private _trackerItems: TrackerItem<T>[];
   private _config: BatchTrackerConfig;
+  private _onTrackerCreated: (() => void) | undefined;
 
-  constructor(name: string, timeoutMs: number, callbackFunction: () => void, config?: BatchTrackerConfig) {
+  constructor(name: string, timeoutMs: number, callbackFunction: () => void, config?: BatchTrackerConfig, onTrackerCreated?: () => void) {
     this._name = name;
     this._timeoutMs = timeoutMs;
     this._callbackFunction = callbackFunction;
     this._trackerItems = [];
     this._config = getConfig(config);
+    this._onTrackerCreated = onTrackerCreated;
   }
 
   addTrackerItem(item: any) {
@@ -105,6 +108,10 @@ export class Tracker<T extends { id: string}> {
 
   public get config() {
     return this._config;
+  }
+
+  public get onTrackerCreated(){
+    return this._onTrackerCreated;
   }
 
   public runCallbackFunction() {
