@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 
 const testTracker = {
   name: "tracker-name",
-  callbackTimeout: 1000,
+  callbackTimeout: 100,
   callbackFunction: (data: any) => {console.log(data)},
 }
 
@@ -12,7 +12,7 @@ const testTracker = {
 test("Should create a new batch", async () => {
   const Consumer: React.FC = () => {
     const { createTracker, getBatchTracker } = useContext(BatchTrackerContext);
-    const [ tracker, setTracker ] = useState<Tracker<unknown & {id: string}> | undefined>(undefined);
+    const [ _, setTracker ] = useState<Tracker<unknown & {id: string}> | undefined>(undefined);
 
     useEffect(()=>{
       createTracker(testTracker.name, testTracker.callbackTimeout, testTracker.callbackFunction);
