@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 const testTracker = {
   name: "tracker-name",
   callbackTimeout: 100,
-  callbackFunction: (data: any) => {console.log(data)},
+  callbackFunction: (_: any) => {},
 }
 
 
@@ -69,7 +69,6 @@ test("Should run regular callback function when config is set to countDownOnCrea
     const [text, setText] = useState<string | undefined>(undefined);
 
     const callbackFunction = () => {
-      console.log("running callback function")
       setText("call-back-run");
     };
 
