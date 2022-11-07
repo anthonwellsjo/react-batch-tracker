@@ -148,8 +148,20 @@ export const BatchTrackerContext = createContext<BatchTrackerInterface>({} as an
 
 export function BatchTrackerProvider<T>(props: Props) {
   const [batchTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
+  const batchTrackerRef = useRef({ oldLength: batchTrackers.length }).current;
 
-  const createTracker: BatchTrackerInterface['createTracker'] = (name, timeoutMs, callbackFunction, config) => {
+  /** Will compare old length of batch tracker array and if different, runs the onTrackerCreated
+      event on the last one added*/
+  useEffect(()=>{
+    if (batchTrackerRef.oldLength !== batchTrackers.length){
+      batchTrackers[batchTrackers.length - 1]?.onTrackerCreated?.();
+    }
+    return () => { 
+      batchTrackerRef.oldLength = batchTrackers.length;
+    };
+  },[batchTrackers])
+
+  const createTracker: BatchTrackerInterface['createTracker'] = (name, timeoutMs, callbackFunction, config, onTrackerCreated) => {
     if (batchTrackers.some((t) => t.name === name)) {
       console.warn('Trying to add an action tracker that already exists. Aborting.');
       return;
