@@ -144,10 +144,6 @@ export class Tracker<T extends { id: string}> {
   }
 }
 
-const defaultConfig: BatchTrackerConfig = {
-  mutableBatch: true
-}
-
 export const BatchTrackerContext = createContext<BatchTrackerInterface>({} as any);
 
 export function BatchTrackerProvider<T>(props: Props) {
