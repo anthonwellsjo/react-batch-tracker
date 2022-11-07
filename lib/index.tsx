@@ -78,6 +78,12 @@ export interface BatchTrackerConfig {
 
   *Defaults to true. */
   cleanBatchOnCallback?: boolean
+
+  /** If set to true, the counter for the callback event is started as soon as a tracker is created. If false, an action is
+  needed to trigger the countdown.
+
+  *Defaults to false. */
+  countdownOnCreated?: boolean
 }
 
 export class Tracker<T extends { id: string}> {
@@ -153,7 +159,10 @@ export function BatchTrackerProvider<T>(props: Props) {
       return;
     }
 
-    const tracker = new Tracker<TrackerItem<T>>(name, timeoutMs, callbackFunction, config);
+    const tracker = new Tracker<TrackerItem<T>>(name, timeoutMs, callbackFunction, config, onTrackerCreated);
+    if (config?.countdownOnCreated){
+      tracker.start();
+    }
     setBatchTrackers((prev) => [...prev, tracker]);
     return;
   };
@@ -216,9 +225,16 @@ function findTracker<T>(actionTrackers: Tracker<TrackerItem<T>>[], name: string)
   return actionTrackers.find((t) => t.name === name);
 }
 
+const defaultConfig: BatchTrackerConfig = {
+  mutableBatch: true,
+  cleanBatchOnCallback: true,
+  countdownOnCreated: false
+}
+
 function getConfig(config: BatchTrackerConfig | undefined): BatchTrackerConfig {
   return {
-    mutableBatch: config?.mutableBatch != undefined ? config.mutableBatch : defaultConfig.mutableBatch,
-    cleanBatchOnCallback: config?.cleanBatchOnCallback != undefined ? config.cleanBatchOnCallback : defaultConfig.cleanBatchOnCallback,
+    mutableBatch: config?.mutableBatch? config.mutableBatch : defaultConfig.mutableBatch,
+    cleanBatchOnCallback: config?.cleanBatchOnCallback? config.cleanBatchOnCallback : defaultConfig.cleanBatchOnCallback,
+    countdownOnCreated: config?.countdownOnCreated? config.countdownOnCreated : defaultConfig.countdownOnCreated,
   };
 }
