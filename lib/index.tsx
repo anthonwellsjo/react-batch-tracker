@@ -73,8 +73,8 @@ export interface BatchTrackerConfig {
   *Defaults to true. */
   mutableBatch?: boolean;
 
-  /** If set to false, the batch will not be cleared on callback. If set to false, be careful of using a lot of memory and 
-  to manually clear the batch before it grows to big.
+  /** If set to false, the batch will not be cleared on callback. This could result in memory leaks so make sure to 
+  manually clear the batch.
 
   *Defaults to true. */
   cleanBatchOnCallback?: boolean
