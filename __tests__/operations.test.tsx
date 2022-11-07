@@ -37,35 +37,55 @@ test("Should create a new batch", async () => {
   })
 })
 
+test("Should run oncreatedevent callback function", async () => {
+  const Consumer: React.FC = () => {
+    const { createTracker } = useContext(BatchTrackerContext);
+    const [text, setText] = useState<string | undefined>(undefined);
 
-// test("Should run callback function", async () => {
-//   const Consumer: React.FC = () => {
-//     const { createTracker, action} = useContext(BatchTrackerContext);
-//     const [text, setText] = useState<string | undefined>(undefined);
+    const onCreatedCallbackFunction = () => {
+      setText("on-created-callback");
+    };
 
-//     const callbackFunction = () => {
-//       setText("call-back-run");
-//       console.log("set tect");
-//     };
+    useEffect(()=>{
+      createTracker(testTracker.name, testTracker.callbackTimeout, testTracker.callbackFunction, undefined, onCreatedCallbackFunction )
+    }, []);
 
-//     useEffect(()=>{
-//       createTracker(testTracker.name, testTracker.callbackTimeout, testTracker.callbackFunction)
-//         .then(()=>{
-//           action(testTracker.name);
-//         })
-//     }, []);
+    return <p data-testid="tracker-name">{text}</p>
+  }
 
+  render(
+    <BatchTrackerProvider>
+      <Consumer/>
+    </BatchTrackerProvider>,
+  )
+  await waitFor(() => {
+    expect(screen.getByText("on-created-callback"))
+  })
+})
 
-//     return <p data-testid="tracker-name">{text}</p>
-//   }
+test("Should run regular callback function when config is set to countDownOnCreated: true", async () => {
+  const Consumer: React.FC = () => {
+    const { createTracker } = useContext(BatchTrackerContext);
+    const [text, setText] = useState<string | undefined>(undefined);
 
-//   render(
-//     <BatchTrackerProvider>
-//       <Consumer/>
-//     </BatchTrackerProvider>,
-//   )
-//   await waitFor(() => {
-//     expect(screen.getByText("call-back-run"))
-//   })
-// })
+    const callbackFunction = () => {
+      console.log("running callback function")
+      setText("call-back-run");
+    };
 
+    useEffect(()=>{
+      createTracker(testTracker.name, 10, callbackFunction, {countdownOnCreated: true} )
+    }, []);
+
+    return <p data-testid="tracker-name">{text}</p>
+  }
+
+  render(
+    <BatchTrackerProvider>
+      <Consumer/>
+    </BatchTrackerProvider>,
+  )
+  await waitFor(() => {
+    expect(screen.getByText("call-back-run"))
+  }, {timeout: 1000})
+})
