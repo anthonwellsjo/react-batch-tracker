@@ -83,7 +83,7 @@ const testTracker = {
     };
 
     useEffect(()=>{
-      createTracker(testTracker.name, 10, callbackFunction, {countdownOnCreated: true} )
+      createTracker(testTracker.name, testTracker.callbackTimeout, callbackFunction, {countdownOnCreated: true} )
     }, []);
 
     return <p data-testid="tracker-name">{text}</p>
