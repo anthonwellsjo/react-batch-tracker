@@ -96,5 +96,46 @@ const testTracker = {
   )
   await waitFor(() => {
     expect(screen.getByText("call-back-run"))
-  }, {timeout: 1000})
+  })
+})
+
+test("Should run regular callback function after action", async () => {
+const testTracker = {
+  name: getRandomName(),
+  callbackTimeout: 10,
+  callbackFunction: (_: any) => {},
+}
+  const Consumer: React.FC = () => {
+    const { createTracker, action } = useContext(BatchTrackerContext);
+    const [text, setText] = useState<string | undefined>(undefined);
+    const [trigger, setTrigger] = useState(0);
+
+    useEffect(()=>{
+      console.log("action");
+      action(testTracker.name);
+    },[trigger])
+
+    const onCreatedCallbackFunction = () => {
+      setTrigger(1);
+    }
+
+    const callbackFunction = () => {
+      setText("call-back-run");
+    };
+
+    useEffect(()=>{
+      createTracker(testTracker.name, testTracker.callbackTimeout, callbackFunction, undefined, onCreatedCallbackFunction);
+    }, []);
+
+    return <p data-testid="tracker-name">{text}</p>
+  }
+
+  render(
+    <BatchTrackerProvider>
+      <Consumer/>
+    </BatchTrackerProvider>,
+  )
+  await waitFor(() => {
+    expect(screen.getByText("call-back-run"))
+  })
 })
