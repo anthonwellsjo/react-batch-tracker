@@ -6,8 +6,8 @@ const getRandomName = () => "tracker-" + Math.floor(Math.random()*10000)
 
 test("Should create a new batch", async () => {
 const testTracker = {
-  name: "tracker-name",
-  callbackTimeout: 100,
+  name: getRandomName(),
+  callbackTimeout: 10,
   callbackFunction: (_: any) => {},
 }
 
@@ -41,6 +41,11 @@ test("Should create a new batch", async () => {
 })
 
 test("Should run oncreatedevent callback function", async () => {
+const testTracker = {
+  name: getRandomName(),
+  callbackTimeout: 10,
+  callbackFunction: (_: any) => {},
+}
   const Consumer: React.FC = () => {
     const { createTracker } = useContext(BatchTrackerContext);
     const [text, setText] = useState<string | undefined>(undefined);
@@ -67,6 +72,11 @@ test("Should run oncreatedevent callback function", async () => {
 })
 
 test("Should run regular callback function when config is set to countDownOnCreated: true", async () => {
+const testTracker = {
+  name: getRandomName(),
+  callbackTimeout: 10,
+  callbackFunction: (_: any) => {},
+}
   const Consumer: React.FC = () => {
     const { createTracker } = useContext(BatchTrackerContext);
     const [text, setText] = useState<string | undefined>(undefined);
