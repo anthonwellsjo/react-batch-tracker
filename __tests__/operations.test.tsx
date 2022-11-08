@@ -10,9 +10,6 @@ const testTracker = {
   callbackTimeout: 10,
   callbackFunction: (_: any) => {},
 }
-
-
-test("Should create a new batch", async () => {
   const Consumer: React.FC = () => {
     const { createTracker, getBatchTracker } = useContext(BatchTrackerContext);
     const [ _, setTracker ] = useState<Tracker<unknown & {id: string}> | undefined>(undefined);
