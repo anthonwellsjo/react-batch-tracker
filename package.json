@@ -1,6 +1,6 @@
 {
   "name": "react-batch-tracker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Keep track of state manipulating events and batch them into a single callback function.",
   "main": "lib/index.tsx",
   "scripts": {
@@ -9,7 +9,8 @@
     "clean": "bash scripts/clean.sh",
     "link": "bash scripts/link.sh",
     "unlink": "bash scripts/delete-glob.sh",
-    "relink": "npm run unlink && npm run build && npm run link"
+    "relink": "npm run unlink && npm run build && npm run link",
+    "publish": "npm publish ./dist"
   },
   "files": [
     "/dist"
