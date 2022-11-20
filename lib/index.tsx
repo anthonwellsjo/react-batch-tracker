@@ -31,7 +31,7 @@ action<InventoryEntityDocument>('inventory-list', updatedInventoryEntityItem);
 
 */
 export interface BatchTrackerInterface {
-  /**An action resets the timeout. */
+  /**An action resets and restarts the callback function timeout. */
   action<T extends { id: string}>(
     /**The name of the tracker that should register the action. */
     name: string,
