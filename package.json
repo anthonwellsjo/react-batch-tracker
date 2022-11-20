@@ -9,7 +9,8 @@
     "clean": "bash scripts/clean.sh",
     "link": "bash scripts/link.sh",
     "unlink": "bash scripts/delete-glob.sh",
-    "relink": "npm run unlink && npm run build && npm run link"
+    "relink": "npm run unlink && npm run build && npm run link",
+    "publish": "bash scripts/clean && bash scripts/build && bash scripts/publish"
   },
   "repository": {
     "type": "git",
