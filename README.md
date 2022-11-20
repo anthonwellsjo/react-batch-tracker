@@ -4,5 +4,5 @@ React Context based npm package for batching calls to a function, somewhat like 
 # getting started
 
 ## installation
-`npm install`
-`yarn install`
+```npm install```
+```yarn install```
