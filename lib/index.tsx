@@ -144,7 +144,9 @@ export class Tracker<T extends { id: string}> {
   }
 }
 
-export const BatchTrackerContext = createContext<BatchTrackerInterface>({} as any);
+const BatchTrackerContext = createContext<BatchTrackerInterface>({} as any);
+
+export const useBatchTracker = () => useContext(BatchTrackerContext);
 
 export function BatchTrackerProvider<T>(props: Props) {
   const [batchTrackers, setBatchTrackers] = useState<Tracker<TrackerItem<T>>[]>([]);
