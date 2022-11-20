@@ -53,7 +53,7 @@ export interface BatchTrackerInterface {
   ): void;
 
   /**Fires the callback and stop the counter. */
-  overrideCallback: (batchTrackerName: string) => void;
+  triggerCallback: (batchTrackerName: string) => void;
 
   /**Will manually emtpy the batch of all its' actions */
   cleanBatch: (batchTrackerName: string) => void;
@@ -191,7 +191,7 @@ export function BatchTrackerProvider<T>(props: Props) {
     return;
   };
 
-  const overrideCallback: BatchTrackerInterface['overrideCallback'] = (batchTrackerName) => {
+  const triggerCallback: BatchTrackerInterface['triggerCallback'] = (batchTrackerName) => {
     const tracker = findTracker<T>(batchTrackers, batchTrackerName);
     if (!tracker) {
       console.warn('Trying to run callback function on a nonexisting tracker. Aborting.');
@@ -221,7 +221,7 @@ export function BatchTrackerProvider<T>(props: Props) {
   const actionTracker: BatchTrackerInterface = {
     createTracker,
     action,
-    overrideCallback,
+    triggerCallback,
     cleanBatch,
     getBatchTracker
   };
