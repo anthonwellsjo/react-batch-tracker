@@ -1,6 +1,6 @@
-import {render, screen, waitFor } from '@testing-library/react'
-import {BatchTrackerContext, BatchTrackerProvider, Tracker} from '../lib/index';
-import { useContext, useEffect, useState } from 'react';
+import { render, screen, waitFor } from "@testing-library/react";
+import { BatchTrackerProvider, Tracker, useBatchTracker } from "../lib/index";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 const getRandomName = () => "tracker-" + Math.floor(Math.random()*10000)
 
