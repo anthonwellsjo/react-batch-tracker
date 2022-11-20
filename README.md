@@ -1,5 +1,5 @@
 # react-batch-tracker
-React Context based npm package for batching calls to a function, somewhat like lodash debounce, but more eccentric. Supports creating several trackers that can track state change by following individual data objects. Goal is to facilitate autosave and undo functionality, and for optimising client -> API requests.
+this is a react context based npm package for batching calls to a function. it supports creating several trackers that can track state change by following individual data objects. the goal with the lib is to facilitate autosave and undo functionality, and for optimising client -> API requests with callbacks containing a batched data set.
 
 # getting started
 
@@ -20,4 +20,7 @@ yarn install
 <img width="588" alt="Screenshot 2022-11-20 at 06 39 09" src="https://user-images.githubusercontent.com/58119759/202887390-0854447d-d0ba-46bf-8a1c-8c27811d3f09.png">
 
 ### create a batch tracker
-before anything doing else, you need to create a new batch tracker. since this lib is based on react context, you will be able to get access to all the initiated trackers globally in your app. it makes sense to create a new tracker for each component or group of component whose state has some common goal, either it being that they have 
+before anything doing else, you need to create a new batch tracker. 
+<img width="808" alt="Screenshot 2022-11-20 at 07 15 34" src="https://user-images.githubusercontent.com/58119759/202888683-cb7de9be-f009-42b1-92e3-32481cdfe68d.png">
+###### since this lib is based on react context, you will be able to get access to all the initiated trackers globally in your app. 
+it makes sense to create a new tracker for each component or group of component whose state has some common goal, either it being that they have a common state that needs to be CRUD:ed with a database with an **autosave functionality**. or maybe it makes sense from a UX perspective to keep track of their combined history of states to implement something like an **undo/redo functionality**.
