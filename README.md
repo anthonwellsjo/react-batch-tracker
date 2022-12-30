@@ -24,7 +24,7 @@ before anything doing else, you need to create a new batch tracker. you need to 
 <img width="657" alt="Screenshot 2022-11-20 at 09 21 29" src="https://user-images.githubusercontent.com/58119759/202892534-c81ecea7-ecb9-4195-ac88-d3dd098e382a.png">
 
 ###### since this lib is based on react context, you will be able to get access to all the initiated trackers globally in your app. 
-it makes sense to create a new tracker for each component or group of component whose state has some common goal, either it being that they have a common state that needs to be CRUD:ed with a database with an **autosave functionality**. or maybe it makes sense from a UX perspective to keep track of their combined history of states to implement something like an **undo/redo functionality**.
+it makes sense to create a new tracker for each component or group of component whose state has some common goal. they might have a common state that needs to be CRUD:ed with a database with **autosave functionality**. or maybe it makes sense from a UX perspective to keep track of their combined history of states to implement something like an **undo/redo functionality**.
 
 ### register actions
 whenever an event occurs that should trigger the countdown for the callback function, you need it to register an action. it makes sense to have this happen on an `onChange` type of event, as shown below.
