@@ -36,7 +36,7 @@ whenever an event occurs that should trigger the countdown for the callback func
 ### auto save
 <img width="750" alt="Screenshot 2022-11-20 at 09 44 18" src="https://user-images.githubusercontent.com/58119759/202893270-3694c928-3319-40b8-a283-52665700226a.png">
 
-the code above will produce a behaviour that will be shown in the follow gif
+the code above will produce a behaviour as shown in the gif below
 ![autosave](https://user-images.githubusercontent.com/58119759/202893636-2a2e979e-ab09-407d-8be5-7d006b68c6bb.gif)
 
 ### auto save with undo functionality
