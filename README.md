@@ -20,7 +20,7 @@ yarn install
 <img width="588" alt="Screenshot 2022-11-20 at 06 39 09" src="https://user-images.githubusercontent.com/58119759/202887390-0854447d-d0ba-46bf-8a1c-8c27811d3f09.png">
 
 ### create a batch tracker
-before anything doing else, you need to create a new batch tracker. you need to give it a name, a timout (in ms) and a callback function. 
+before anything doing else, you need to create a new batch tracker. you need to give it a name, a timeout (in ms) and a callback function. 
 <img width="657" alt="Screenshot 2022-11-20 at 09 21 29" src="https://user-images.githubusercontent.com/58119759/202892534-c81ecea7-ecb9-4195-ac88-d3dd098e382a.png">
 
 ###### since this lib is based on react context, you will be able to get access to all the initiated trackers globally in your app. 
